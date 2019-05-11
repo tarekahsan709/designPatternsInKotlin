@@ -1,43 +1,66 @@
+interface IPizza {
+    fun onCreatePizza()
+}
+
 enum class PizzaType {
     NewYork,
     Chicago,
     California
 }
 
-class NewYorkStylePizza(ingredients: List<String>) {
+
+class NewYorkPizza : IPizza {
     init {
-        println("Creating NewYork Style Pizza")
+        this.onCreatePizza()
     }
+
+    override fun onCreatePizza() {
+        println("Creating NewYork Pizza")
+    }
+
 }
 
-class ChicagoStylePizza(ingredients: List<String>) {
+class ChicagoPizza : IPizza {
     init {
-        println("Creating Chicago Style Pizza")
+        this.onCreatePizza()
     }
+
+    override fun onCreatePizza() {
+        println("Creating Chicago Pizza")
+    }
+
 }
 
-class CaliforniaStylePizza(ingredients: List<String>) {
+class CaliforniaPizza : IPizza {
     init {
-        println("Creating California Style Pizza")
+        this.onCreatePizza()
+    }
+
+    override fun onCreatePizza() {
+        println("Creating California Pizza")
     }
 }
 
 class SimplePizzaFactory {
 
-    fun createPizza(pizzaType: PizzaType, ingredients: List<String>): Any {
+    fun createPizza(pizzaType: PizzaType, ingredients: Array<String> = emptyArray()): IPizza {
         return when (pizzaType) {
-            PizzaType.NewYork -> NewYorkStylePizza(ingredients)
-            PizzaType.Chicago -> ChicagoStylePizza(ingredients)
-            PizzaType.California -> CaliforniaStylePizza(ingredients)
-            else -> {
-                println("No Pizza")
-            }
+            PizzaType.NewYork -> NewYorkPizza()
+            PizzaType.Chicago -> ChicagoPizza()
+            PizzaType.California -> CaliforniaPizza()
         }
     }
 }
 
+
 fun main(args: Array<String>) {
-    val ingredients = emptyList<String>()
-    val simplePizzaFactory = SimplePizzaFactory()
-    var pizza = simplePizzaFactory.createPizza(PizzaType.NewYork, ingredients)
+    val newYorkPizza = SimplePizzaFactory().createPizza(PizzaType.NewYork)
+    println(newYorkPizza::class.java.simpleName)
+
+    val chicagoPizza = SimplePizzaFactory().createPizza(PizzaType.Chicago)
+    println(chicagoPizza::class.java.simpleName)
+
+    val californiaPizza = SimplePizzaFactory().createPizza(PizzaType.California)
+    println(californiaPizza::class.java.simpleName)
+
 }
